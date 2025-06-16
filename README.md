@@ -10,4 +10,6 @@
 # /edit-product/<%= product._id %>?edit=true send productId and ?edit param, post data by from action /edit-product in edit-product.ejs
 # app.js => routes/web.js router => productController
 
+https://api.weatherstack.com/current?access_key=c2833c671f0c2e841887df603dbdfdce&query=20.94944,105.84333
+
 
