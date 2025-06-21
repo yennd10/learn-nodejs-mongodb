@@ -4,9 +4,10 @@ const MongoClient = mongodb.MongoClient;
 let _db;
 
 const mongoConnect = callback => {
-  MongoClient.connect(
-    'mongodb+srv://yennd10:admin123@cluster0.6jtpzwk.mongodb.net/shop?retryWrites=true'
-  )
+  MongoClient.connect('mongodb+srv://yennd10:admin123@cluster0.6jtpzwk.mongodb.net/shop?retryWrites=true&w=majority&appName=Cluster0', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
     .then(client => {
       console.log('Connected!');
       _db = client.db();
