@@ -12,30 +12,61 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        /* Logo styles */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+            user-select: none;
+        }
+
+        .logo-container i {
+            font-size: 2rem;
+            color: #ffc107;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+        }
+
+        .logo-text {
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+            font-size: 1.3rem;
+            color: #fff;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #fff 0%, #20c997 30%, #00b4d8 60%, #e0c3fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            /* Text stroke for better contrast */
+            -webkit-text-stroke: 1.5px #fff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), 0 0 2px #fff, 0 0 8px #20c997;
+        }
+
+        .navbar-brand {
+            padding: 0;
+        }
+    </style>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="/">Shop</a>
+            <a class="navbar-brand" href="/">
+                <div class="logo-container">
+                    <i class="bi bi-shop"></i>
+                    <span class="logo-text">MyStore</span>
+                </div>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link <%= path === '/' ? 'active' : '' %>" href="/">
-                            <i class="bi bi-house-door"></i> Home
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <%= path === '/add-product' ? 'active' : '' %>" href="/add-product">
-                            <i class="bi bi-plus-circle"></i> Add Product
-                        </a>
-                    </li>
-                </ul>
-            </div>
         </div>
     </nav>
 
@@ -55,6 +86,12 @@
                                 <label for="title" class="form-label">Title</label>
                                 <input type="text" class="form-control" id="title" name="title"
                                     value="<% if (editing) { %><%= product.title %><% } %>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="sku" class="form-label">SKU</label>
+                                <input type="text" class="form-control" id="sku" name="sku"
+                                    value="<% if (editing) { %><%= product.sku %><% } %>" placeholder="e.g., PROD-001"
+                                    required>
                             </div>
                             <div class="mb-3">
                                 <label for="imageUrl" class="form-label">Image URL</label>
@@ -92,6 +129,29 @@
             </div>
         </div>
     </main>
+
+    <footer class="footer mt-5 py-3 bg-dark text-light">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <div class="footer-logo d-flex align-items-center mb-2 mb-md-0">
+                <i class="bi bi-shop me-2" style="font-size: 1.5rem; color: #ffc107;"></i>
+                <span class="fw-bold logo-text" style="font-size: 1.1rem; letter-spacing: 1px;">MyStore</span>
+            </div>
+            <div class="footer-links mb-2 mb-md-0">
+                <a href="https://github.com" target="_blank" class="text-light text-decoration-none me-3">
+                    <i class="bi bi-github"></i> GitHub
+                </a>
+                <a href="https://stackoverflow.com" target="_blank" class="text-light text-decoration-none me-3">
+                    <i class="bi bi-stack-overflow"></i> Stack Overflow
+                </a>
+                <a href="https://linkedin.com" target="_blank" class="text-light text-decoration-none">
+                    <i class="bi bi-linkedin"></i> LinkedIn
+                </a>
+            </div>
+            <div class="footer-copy small mt-2 mt-md-0 text-secondary">
+                &copy; <%= new Date().getFullYear() %> MyStore. All rights reserved.
+            </div>
+        </div>
+    </footer>
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

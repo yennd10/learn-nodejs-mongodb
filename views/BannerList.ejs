@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Banner Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Logo styles */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+            user-select: none;
+        }
+
+        .logo-container i {
+            font-size: 2rem;
+            color: #ffc107;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+        }
+
+        .logo-text {
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+            font-size: 1.3rem;
+            color: #fff;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #fff 0%, #20c997 30%, #00b4d8 60%, #e0c3fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            /* Text stroke for better contrast */
+            -webkit-text-stroke: 1.5px #fff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), 0 0 2px #fff, 0 0 8px #20c997;
+        }
+
+        .navbar-brand {
+            padding: 0;
+        }
+
+        /* Hide elements by default */
+        .add-banner-btn,
+        .card-footer {
+            display: none !important;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* Show elements when actions are visible */
+        .actions-visible .add-banner-btn,
+        .actions-visible .card-footer {
+            display: block !important;
+            opacity: 1;
+        }
+
+        /* Nav button styles */
+        .show-actions-nav-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            transition: color 0.3s ease;
+        }
+
+        .show-actions-nav-btn:hover {
+            color: #fff;
+        }
+
+        .show-actions-nav-btn.actions-visible {
+            color: #ffc107;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .actions-visible .card-footer {
+                display: flex !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <div class="logo-container">
+                    <i class="bi bi-shop"></i>
+                    <span class="logo-text">MyStore</span>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <button class="nav-link show-actions-nav-btn" id="showActionsBtn" type="button">
+                            <i class="bi bi-eye"></i>
+                            <span id="showActionsText">Show Actions</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="bi bi-images"></i> Banner Management</h2>
+            <a href="/add-banner" class="btn btn-primary add-banner-btn">
+                <i class="bi bi-plus-circle"></i> Add New Banner
+            </a>
+        </div>
+
+        <% if (typeof banners !=='undefined' && banners.length> 0) { %>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <% for (let banner of banners) { %>
+                    <div class="col">
+                        <div class="card h-100 shadow-sm">
+                            <img src="<%= banner.imageUrl %>" class="card-img-top" alt="<%= banner.title %>"
+                                style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <%- banner.title %>
+                                </h5>
+                                <p class="card-text">
+                                    <%- banner.description %>
+                                </p>
+                                <div class="mb-2">
+                                    <small class="text-muted">
+                                        <i class="bi bi-link-45deg"></i>
+                                        <a href="<%= banner.bannerUrl %>" target="_blank" class="text-decoration-none">
+                                            <%= banner.bannerUrl %>
+                                        </a>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0">
+                                <div class="d-flex justify-content-between">
+                                    <a href="<%= banner.bannerUrl %>" target="_blank"
+                                        class="btn btn-outline-primary btn-sm">
+                                        <i class="bi bi-box-arrow-up-right"></i> View
+                                    </a>
+                                    <a href="/edit-banner/<%= banner._id %>?edit=true"
+                                        class="btn btn-outline-warning btn-sm">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+                                    <form action="/delete-banner" method="POST" class="d-inline">
+                                        <input type="hidden" value="<%= banner._id %>" name="bannerId">
+                                        <button class="btn btn-outline-danger btn-sm" type="submit"
+                                            onclick="return confirm('Are you sure you want to delete this banner?')">
+                                            <i class="bi bi-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+            </div>
+            <% } else { %>
+                <div class="alert alert-info text-center" role="alert">
+                    <h4 class="alert-heading">No Banners Found!</h4>
+                    <p>Start by adding some banners to your shop.</p>
+                    <hr>
+                    <a href="/add-banner" class="btn btn-primary add-banner-btn">
+                        <i class="bi bi-plus-circle"></i> Add Banner
+                    </a>
+                </div>
+                <% } %>
+    </main>
+
+    <footer class="footer mt-5 py-3 bg-dark text-light">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <div class="footer-logo d-flex align-items-center mb-2 mb-md-0">
+                <i class="bi bi-shop me-2" style="font-size: 1.5rem; color: #ffc107;"></i>
+                <span class="fw-bold logo-text" style="font-size: 1.1rem; letter-spacing: 1px;">MyStore</span>
+            </div>
+            <div class="footer-links mb-2 mb-md-0">
+                <a href="https://github.com" target="_blank" class="text-light text-decoration-none me-3">
+                    <i class="bi bi-github"></i> GitHub
+                </a>
+                <a href="https://stackoverflow.com" target="_blank" class="text-light text-decoration-none me-3">
+                    <i class="bi bi-stack-overflow"></i> Stack Overflow
+                </a>
+                <a href="https://linkedin.com" target="_blank" class="text-light text-decoration-none">
+                    <i class="bi bi-linkedin"></i> LinkedIn
+                </a>
+            </div>
+            <div class="footer-copy small mt-2 mt-md-0 text-secondary">
+                &copy; <%= new Date().getFullYear() %> MyStore. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const showActionsBtn = document.getElementById('showActionsBtn');
+            const showActionsText = document.getElementById('showActionsText');
+            const body = document.body;
+
+            let actionsVisible = false;
+
+            showActionsBtn.addEventListener('click', function () {
+                actionsVisible = !actionsVisible;
+
+                if (actionsVisible) {
+                    body.classList.add('actions-visible');
+                    showActionsBtn.classList.add('actions-visible');
+                    showActionsText.textContent = 'Hide Actions';
+                    showActionsBtn.querySelector('i').className = 'bi bi-eye-slash';
+                } else {
+                    body.classList.remove('actions-visible');
+                    showActionsBtn.classList.remove('actions-visible');
+                    showActionsText.textContent = 'Show Actions';
+                    showActionsBtn.querySelector('i').className = 'bi bi-eye';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

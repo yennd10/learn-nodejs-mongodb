@@ -1,7 +1,8 @@
 const Banner = require('../models/banner');
 
+// Banner Management Functions
 exports.getAddBanner = (req, res, next) => {
-  res.render('form-banner', {
+  res.render('BannerForm', {
     pageTitle: 'Add Banner',
     path: '/add-banner',
     editing: false
@@ -9,20 +10,27 @@ exports.getAddBanner = (req, res, next) => {
 };
 
 exports.postAddBanner = (req, res, next) => {
-  const imageUrl = req.body.imageUrl;
   const title = req.body.title;
   const description = req.body.description;
-  const bannerUrl = req.body.bannerUrl
+  const bannerUrl = req.body.bannerUrl;
 
-  //khoi tao banner Model Object and save banner Object
-  const banner = new Banner(imageUrl, title, description, bannerUrl);
+  // Handle file upload
+  let imageUrl = '';
+  if (req.file) {
+    imageUrl = '/uploads/' + req.file.filename;
+  }
 
+  const banner = new Banner({
+    title: title,
+    imageUrl: imageUrl,
+    description: description,
+    bannerUrl: bannerUrl
+  });
   banner
     .save()
     .then(result => {
-      // console.log(result);
       console.log('Created Banner');
-      res.redirect('/banners');
+      res.redirect('/banner-list');
     })
     .catch(err => {
       console.log(err);
@@ -31,20 +39,21 @@ exports.postAddBanner = (req, res, next) => {
 
 exports.getEditBanner = (req, res, next) => {
   const editMode = req.query.edit;
-  if (!editMode) {
-    return res.redirect('/');
+
+  if (editMode !== 'true') {
+    console.log('editMode 1:', editMode);
+    return res.redirect('/banner-list');
   }
 
-  // get bannId on Url
+  console.log('editMode 2:', editMode);
   const bannerId = req.params.bannerId;
-
   Banner.findById(bannerId)
     .then(banner => {
       if (!banner) {
-        return res.redirect('/');
+        return res.redirect('/banner-list');
       }
-
-      res.render('form-banner', {
+      console.log('editMode 3:', editMode);
+      res.render('BannerForm', {
         pageTitle: 'Edit Banner',
         path: '/edit-banner',
         editing: editMode,
@@ -56,45 +65,49 @@ exports.getEditBanner = (req, res, next) => {
 
 exports.postEditBanner = (req, res, next) => {
   const bannerId = req.body.bannerId;
-  const updatedImageUrl = req.body.imageUrl;
   const updatedTitle = req.body.title;
   const updatedDesc = req.body.description;
   const updatedBannerUrl = req.body.bannerUrl;
 
-  const banner = new Banner(
-    bannerId,
-    updatedImageUrl,
-    updatedTitle,
-    updatedDesc,
-    updatedBannerUrl
-  );
-  banner
-    .save()
+  Banner.findById(bannerId)
+    .then(banner => {
+      banner.title = updatedTitle;
+      banner.description = updatedDesc;
+      banner.bannerUrl = updatedBannerUrl;
+
+      // Handle file upload for edit
+      if (req.file) {
+        banner.imageUrl = '/uploads/' + req.file.filename;
+      }
+
+      return banner.save();
+    })
     .then(result => {
       console.log('UPDATED BANNER!');
-      res.redirect('/');
-    })
-    .catch(err => console.log(err));
-};
-
-exports.getBanners = (req, res, next) => {
-  Banner.fetchAll()
-    .then(banners => {
-      res.render('banners', {
-        banners: banners,
-        pageTitle: 'All Banner',
-        path: '/banners'
-      });
+      res.redirect('/banner-list');
     })
     .catch(err => console.log(err));
 };
 
 exports.postDeleteBanner = (req, res, next) => {
   const bannerId = req.body.bannerId;
-  Banner.deleteById(bannerId)
+  Banner.findByIdAndDelete(bannerId)
     .then(() => {
       console.log('DESTROYED BANNER');
-      res.redirect('/');
+      res.redirect('/banner-list');
+    })
+    .catch(err => console.log(err));
+};
+
+// Get Banners List Page
+exports.getBannerList = (req, res, next) => {
+  Banner.find()
+    .then(banners => {
+      res.render('BannerList', {
+        banners: banners,
+        pageTitle: 'Banner List',
+        path: '/banner-list'
+      });
     })
     .catch(err => console.log(err));
 };

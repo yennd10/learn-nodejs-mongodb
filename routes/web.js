@@ -7,8 +7,9 @@ const bannerController = require('../controllers/bannerController');
 
 const router = express.Router();
 
-// controller show list products
-router.get('/', productController.getProducts);
+
+// get product list
+router.get('/', productController.getProductList);
 
 // Add
 router.get('/add-product', productController.getAddProduct);
@@ -25,17 +26,25 @@ router.post('/delete-product', productController.postDeleteProduct);
 
 
 // swiper
-router.get('/swiper', (req, res) => {
-    res.render('swiper', {
-        pageTitle: 'swiper',
-        path: '/swiper'
-    });
-});
+// router.get('/swiper', (req, res) => {
+//     res.render('swiper', {
+//         pageTitle: 'swiper',
+//         path: '/swiper'
+//     });
+// });
 
 
+// Banner Management Routes
 // controller show list banners
-router.get('/banners', bannerController.getBanners);
+router.get('/banner-list', bannerController.getBannerList);
 router.get('/add-banner', bannerController.getAddBanner);
-
 router.post('/add-banner', bannerController.postAddBanner);
+
+// Edit Banner
+router.get('/edit-banner/:bannerId', bannerController.getEditBanner);
+router.post('/edit-banner', bannerController.postEditBanner);
+
+// Delete Banner
+router.post('/delete-banner', bannerController.postDeleteBanner);
+
 module.exports = router;

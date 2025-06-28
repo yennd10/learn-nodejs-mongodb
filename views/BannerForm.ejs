@@ -70,13 +70,8 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link <%= path === '/' ? 'active' : '' %>" href="/">
-                            <i class="bi bi-house-door"></i> Home
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <%= path === '/add-product' ? 'active' : '' %>" href="/add-product">
-                            <i class="bi bi-plus-circle"></i> Add Product
+                        <a class="nav-link active" href="/banner-list">
+                            <i class="bi bi-house-door"></i> Banner List
                         </a>
                     </li>
                 </ul>
@@ -84,22 +79,60 @@
         </div>
     </nav>
 
-    <main class="container py-5">
+    <main class="container py-4">
         <div class="row justify-content-center">
-            <div class="col-md-8 text-center">
-                <div class="error-template">
-                    <h1 class="display-1 text-danger mb-4">
-                        <i class="bi bi-exclamation-triangle"></i> 404
-                    </h1>
-                    <h2 class="mb-4">Page Not Found!</h2>
-                    <p class="lead mb-4">Sorry, the page you are looking for does not exist.</p>
-                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                        <a href="/" class="btn btn-primary btn-lg px-4 gap-3">
-                            <i class="bi bi-house-door"></i> Back to Home
-                        </a>
-                        <a href="/" class="btn btn-outline-secondary btn-lg px-4">
-                            <i class="bi bi-grid"></i> View Products
-                        </a>
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">
+                            <i class="bi bi-<%= editing ? 'pencil' : 'plus-circle' %>"></i>
+                            <%= editing ? 'Edit' : 'Add New' %> Banner
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="/<% if (editing) { %>edit-banner<% } else { %>add-banner<% } %>" method="POST"
+                            enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="imageUrl" class="form-label">Banner Image</label>
+                                <input type="file" class="form-control" id="imageUrl" name="imageUrl" accept="image/*"
+                                    <% if (!editing) { %>required<% } %>>
+                                    <div class="form-text">Select an image file (JPG, PNG, GIF, etc.)</div>
+                                    <% if (editing && banner.imageUrl) { %>
+                                        <div class="mt-2">
+                                            <small class="text-muted">Current image:</small>
+                                            <img src="<%= banner.imageUrl %>" alt="Current banner"
+                                                class="img-thumbnail d-block mt-1" style="max-width: 200px;">
+                                        </div>
+                                        <% } %>
+                            </div>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Banner Title</label>
+                                <input type="text" class="form-control" id="title" name="title"
+                                    value="<% if (editing) { %><%= banner.title %> <% } %>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" name="description" rows="3"
+                                    required><% if (editing) { %><%= banner.description %><% } %></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="bannerUrl" class="form-label">Banner Url</label>
+                                <input type="text" class="form-control" id="bannerUrl" name="bannerUrl"
+                                    value="<% if (editing) { %><%= banner.bannerUrl %><% } %>" required>
+                            </div>
+                            <% if (editing) { %>
+                                <input type="hidden" value="<%= banner._id %>" name="bannerId">
+                                <% } %>
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-<%= editing ? 'check-circle' : 'plus-circle' %>"></i>
+                                            <%= editing ? 'Update' : 'Add' %> Banner
+                                        </button>
+                                        <a href="/banner-list" class="btn btn-outline-secondary">
+                                            <i class="bi bi-arrow-left"></i> Back to Banners
+                                        </a>
+                                    </div>
+                        </form>
                     </div>
                 </div>
             </div>

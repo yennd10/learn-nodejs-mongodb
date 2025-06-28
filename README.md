@@ -1,3 +1,104 @@
+# Node.js MongoDB Products API với React Frontend
+
+Project này bao gồm:
+1. **Backend API** (Node.js + Express + MongoDB) - Cung cấp API để quản lý sản phẩm
+2. **Frontend React App** - Hiển thị danh sách sản phẩm từ API
+
+## Cấu trúc Project
+
+```
+learn-nodejs-mongodb/
+├── app.js                 # Server chính
+├── routes/web.js          # Routes cho web và API
+├── controllers/           # Controllers
+├── models/               # MongoDB models
+├── views/                # EJS templates
+├── react-app/            # React frontend
+│   ├── src/
+│   │   ├── App.js
+│   │   ├── components/
+│   │   └── ...
+│   └── package.json
+└── README.md
+```
+
+## API Endpoints
+
+### GET /api/products
+Trả về danh sách tất cả sản phẩm dạng JSON
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "_id": "product_id",
+      "title": "Product Name",
+      "price": 99.99,
+      "description": "Product description",
+      "imageUrl": "image_url"
+    }
+  ],
+  "message": "Products retrieved successfully"
+}
+```
+
+## Cách chạy
+
+### 1. Backend (Node.js API)
+```bash
+# Cài đặt dependencies
+npm install
+
+# Chạy server
+node app.js
+```
+Server sẽ chạy tại `http://localhost:3000`
+
+### 2. Frontend (React App)
+```bash
+# Di chuyển vào thư mục React app
+cd react-app
+
+# Cài đặt dependencies
+npm install
+
+# Chạy React app
+npm start
+```
+React app sẽ chạy tại `http://localhost:3001`
+
+## Tính năng
+
+### Backend
+- RESTful API với Express
+- MongoDB với Mongoose
+- File upload với Multer
+- CORS support cho frontend
+
+### Frontend (React)
+- Fetch data từ API
+- Responsive design
+- Loading states
+- Error handling
+- Modern UI với hover effects
+
+## Database
+
+Sử dụng MongoDB Atlas với connection string:
+```
+mongodb+srv://yennd10:admin123@cluster0.6jtpzwk.mongodb.net/shop
+```
+
+## Models
+
+### Product
+- title: String
+- price: Number
+- description: String
+- imageUrl: String
+
 connect MongoDB:
 mongodb+srv://yennd10:admin123@cluster0.6jtpzwk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 MongoClient.connect('mongodb+srv://yennd10:admin123@cluster0.6jtpzwk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        <%= pageTitle %>
+    </title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Add Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Demo styles -->
+    <style>
+        /* Remove any spacing from container */
+        .swiper-container {
+            margin: 0;
+            padding: 0;
+        }
+
+        .swiper {
+            width: 100%;
+            height: 400px;
+            margin: 50px auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .swiper-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            gap: 0;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            flex-shrink: 0;
+            width: 100%;
+            height: 100%;
+            gap: 0;
+        }
+
+        .swiper-slide:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .swiper-slide img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .swiper-slide h3 {
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .swiper-slide p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        /* Style for swiper-slide-content */
+        .swiper-slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.4) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 0 0 8px 8px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .swiper-slide:hover .swiper-slide-content {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.5) 100%);
+        }
+
+        .swiper-slide-content h3 {
+            margin: 0 0 10px 0;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .swiper-slide-content p {
+            margin: 0 0 15px 0;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            line-height: 1.4;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .banner-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .banner-actions .btn {
+            margin: 2px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            height: 36px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 8px 16px;
+            line-height: 1.2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 80px;
+            white-space: nowrap;
+        }
+
+        .banner-actions .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .banner-actions .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .banner-actions .btn-outline-warning {
+            color: #ffc107;
+            border-color: #ffc107;
+            background: rgba(255, 193, 7, 0.1);
+        }
+
+        .banner-actions .btn-outline-warning:hover {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .banner-actions .btn-outline-danger {
+            color: #dc3545;
+            border-color: #dc3545;
+            background: rgba(220, 53, 69, 0.1);
+        }
+
+        .banner-actions .btn-outline-danger:hover {
+            background: #dc3545;
+            color: white;
+        }
+
+        /* Style for navigation buttons */
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #007aff;
+            background: rgba(255, 255, 255, 0.9);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+            background: rgba(255, 255, 255, 1);
+            color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Style for pagination */
+        .swiper-pagination-bullet {
+            background: #007aff;
+        }
+
+        /* Style for scrollbar */
+        .swiper-scrollbar {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .swiper-scrollbar-drag {
+            background: #007aff;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .swiper {
+                height: 300px;
+                margin: 30px auto;
+            }
+
+            .show-actions-nav-btn {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+
+            .nav-item.hideable.show {
+                display: block;
+                animation: fadeInUp 0.3s ease;
+            }
+
+            .swiper-slide-content {
+                padding: 15px;
+            }
+
+            .swiper-slide-content h3 {
+                font-size: 1.2rem;
+                margin-bottom: 8px;
+            }
+
+            .swiper-slide-content p {
+                font-size: 0.85rem;
+                margin-bottom: 12px;
+            }
+
+            .banner-actions {
+                flex-direction: column;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .banner-actions .btn {
+                width: 100%;
+                max-width: 200px;
+                height: 40px;
+                font-size: 0.875rem;
+                padding: 10px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .swiper {
+                height: 250px;
+                margin: 20px auto;
+            }
+
+            .show-actions-nav-btn {
+                padding: 5px 8px;
+                font-size: 0.8rem;
+            }
+
+            .show-actions-nav-btn span {
+                display: none;
+            }
+
+            .nav-item.hideable.show {
+                display: block;
+                animation: fadeInUp 0.3s ease;
+            }
+
+            .swiper-slide-content {
+                padding: 12px;
+            }
+
+            .swiper-slide-content h3 {
+                font-size: 1.1rem;
+                margin-bottom: 6px;
+            }
+
+            .swiper-slide-content p {
+                font-size: 0.8rem;
+                margin-bottom: 10px;
+            }
+
+            .banner-actions .btn {
+                max-width: 150px;
+                height: 38px;
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+        }
+
+        /* Hide card-footer and banner-actions by default */
+        .card-footer,
+        .banner-actions {
+            display: none;
+        }
+
+        /* Hide Add Product and Add Banner menu items by default */
+        .nav-item.hideable {
+            display: none;
+        }
+
+        .nav-item.hideable.show {
+            display: block;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        /* Animation for showing/hiding elements */
+        .card-footer.show {
+            display: block;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .banner-actions.show {
+            display: flex;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Show Actions Nav Button */
+        .show-actions-nav-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.8) !important;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .show-actions-nav-btn:hover {
+            color: white !important;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .show-actions-nav-btn.active {
+            color: #28a745 !important;
+            background: rgba(40, 167, 69, 0.1);
+        }
+
+        .show-actions-nav-btn.active:hover {
+            color: #20c997 !important;
+            background: rgba(32, 201, 151, 0.15);
+        }
+
+        .show-actions-nav-btn i {
+            font-size: 1rem;
+        }
+
+        /* Logo styles */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+            user-select: none;
+        }
+
+        .logo-container i {
+            font-size: 2rem;
+            color: #ffc107;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+        }
+
+        .logo-text {
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+            font-size: 1.3rem;
+            color: #fff;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #fff 0%, #20c997 30%, #00b4d8 60%, #e0c3fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            /* Text stroke for better contrast */
+            -webkit-text-stroke: 1.5px #fff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), 0 0 2px #fff, 0 0 8px #20c997;
+        }
+
+        .navbar-brand {
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <div class="logo-container">
+                    <i class="bi bi-shop"></i>
+                    <span class="logo-text">MyStore</span>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link <%= path === '/' ? 'active' : '' %>" href="/">
+                            <i class="bi bi-house-door"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item hideable">
+                        <a class="nav-link <%= path === '/add-product' ? 'active' : '' %>" href="/add-product">
+                            <i class="bi bi-plus-circle"></i> Add Product
+                        </a>
+                    </li>
+                    <li class="nav-item hideable">
+                        <a class="nav-link <%= path === '/add-banner' ? 'active' : '' %>" href="/add-banner">
+                            <i class="bi bi-plus-circle"></i> Add Banner
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link show-actions-nav-btn" id="showActionsBtn" type="button">
+                            <i class="bi bi-eye"></i>
+                            <span id="showActionsText">Show Actions</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4">
+        <% if (typeof banners !=='undefined' && banners.length> 0) { %>
+            <div class="row">
+                <div class="swiper">
+                    <div class="swiper-wrapper">
+                        <% for (let banner of banners) { %>
+                            <div class="swiper-slide">
+                                <img src="<%= banner.imageUrl %>" alt="<%= banner.title %>"
+                                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                <div class="swiper-slide-content">
+                                    <h3>
+                                        <%- banner.title %>
+                                    </h3>
+                                    <p>
+                                        <%- banner.description %>
+                                    </p>
+                                    <div class="banner-actions">
+                                        <a href="<%= banner.bannerUrl %>" class="btn btn-primary">
+                                            <i class="bi bi-box-arrow-up-right"></i> View More
+                                        </a>
+                                        <a href="/edit-banner/<%= banner._id %>?edit=true"
+                                            class="btn btn-outline-warning btn-sm">
+                                            <i class="bi bi-pencil"></i> Edit
+                                        </a>
+                                        <form action="/delete-banner" method="POST" class="d-inline">
+                                            <input type="hidden" value="<%= banner._id %>" name="bannerId">
+                                            <button class="btn btn-outline-danger btn-sm" type="submit"
+                                                onclick="return confirm('Are you sure you want to delete this banner?')">
+                                                <i class="bi bi-trash"></i> Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                    </div>
+                    <!-- Add Navigation -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination"></div>
+                    <!-- Add Scrollbar -->
+                    <div class="swiper-scrollbar"></div>
+                </div>
+            </div>
+            <% } %>
+                <% if (typeof prods !=='undefined' && prods.length> 0) { %>
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                        <% for (let product of prods) { %>
+                            <div class="col">
+                                <div class="card h-100 shadow-sm">
+                                    <img src="<%= product.imageUrl %>" class="card-img-top" alt="<%= product.title %>"
+                                        style="height: 200px; object-fit: cover;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <%- product.title %>
+                                        </h5>
+                                        <div class="mb-2">
+                                            <small class="text-muted">
+                                                <strong>SKU:</strong>
+                                                <span class="badge bg-light text-dark">
+                                                    <%= product.sku %>
+                                                </span>
+                                            </small>
+                                        </div>
+                                        <h6 class="card-subtitle mb-2 text-primary">$<%= product.price %>
+                                        </h6>
+                                        <p class="card-text">
+                                            <%- product.description %>
+                                        </p>
+                                    </div>
+                                    <div class="card-footer bg-transparent border-top-0">
+                                        <div class="d-flex justify-content-between">
+                                            <a href="/edit-product/<%= product._id %>?edit=true"
+                                                class="btn btn-outline-primary">
+                                                <i class="bi bi-pencil"></i> Edit
+                                            </a>
+                                            <form action="/delete-product" method="POST" class="d-inline">
+                                                <input type="hidden" value="<%= product._id %>" name="productId">
+                                                <button class="btn btn-outline-danger" type="submit">
+                                                    <i class="bi bi-trash"></i> Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                    </div>
+                    <% } else { %>
+                        <div class="alert alert-info text-center" role="alert">
+                            <h4 class="alert-heading">No Products Found!</h4>
+                            <p>Start by adding some products to your shop.</p>
+                            <hr>
+                            <a href="/add-product" class="btn btn-primary">
+                                <i class="bi bi-plus-circle"></i> Add Product
+                            </a>
+                        </div>
+                        <% } %>
+    </main>
+
+    <footer class="footer mt-5 py-3 bg-dark text-light">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <div class="footer-logo d-flex align-items-center mb-2 mb-md-0">
+                <i class="bi bi-shop me-2" style="font-size: 1.5rem; color: #ffc107;"></i>
+                <span class="fw-bold logo-text" style="font-size: 1.1rem; letter-spacing: 1px;">MyStore</span>
+            </div>
+            <div class="footer-links mb-2 mb-md-0">
+                <a href="https://github.com" target="_blank" class="text-light text-decoration-none me-3">
+                    <i class="bi bi-github"></i> GitHub
+                </a>
+                <a href="https://stackoverflow.com" target="_blank" class="text-light text-decoration-none me-3">
+                    <i class="bi bi-stack-overflow"></i> Stack Overflow
+                </a>
+                <a href="https://linkedin.com" target="_blank" class="text-light text-decoration-none">
+                    <i class="bi bi-linkedin"></i> LinkedIn
+                </a>
+            </div>
+            <div class="footer-copy small mt-2 mt-md-0 text-secondary">
+                &copy; <%= new Date().getFullYear() %> MyStore. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Initialize Swiper -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('DOM loaded, initializing Swiper...');
+
+            const swiperContainer = document.querySelector('.swiper');
+            if (!swiperContainer) {
+                console.error('Swiper container not found!');
+                return;
+            }
+
+            const slides = swiperContainer.querySelectorAll('.swiper-slide');
+            console.log('Found', slides.length, 'slides');
+
+            const swiper = new Swiper('.swiper', {
+                // Basic parameters
+                direction: 'horizontal',
+                loop: true,
+                slidesPerView: 1,
+                spaceBetween: 0,
+                centeredSlides: false,
+                grabCursor: true,
+
+                // Navigation arrows
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+
+                // Pagination
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+
+                // Scrollbar
+                scrollbar: {
+                    el: '.swiper-scrollbar',
+                    draggable: true,
+                },
+
+                // Effect
+                effect: 'slide',
+
+                // Speed
+                speed: 400,
+
+                // Callbacks
+                on: {
+                    init: function () {
+                        console.log('✅ Swiper initialized successfully');
+                        console.log('Total slides:', this.slides.length);
+                        console.log('Current index:', this.realIndex);
+                        console.log('Navigation buttons:', {
+                            next: this.navigation.nextEl,
+                            prev: this.navigation.prevEl
+                        });
+                    },
+                    slideChange: function () {
+                        console.log('🔄 Slide changed to index:', this.realIndex);
+                    },
+                    slideChangeTransitionEnd: function () {
+                        console.log('✅ Slide transition ended at index:', this.realIndex);
+                    },
+                    click: function (swiper, event) {
+                        console.log('🖱️ Swiper clicked:', event);
+                    },
+                },
+            });
+
+            // Test navigation buttons
+            const nextBtn = document.querySelector('.swiper-button-next');
+            const prevBtn = document.querySelector('.swiper-button-prev');
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function () {
+                    console.log('➡️ Next button clicked');
+                });
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', function () {
+                    console.log('⬅️ Previous button clicked');
+                });
+            }
+
+            // Show Actions Toggle Functionality
+            const showActionsBtn = document.getElementById('showActionsBtn');
+            const showActionsText = document.getElementById('showActionsText');
+            const showActionsIcon = showActionsBtn.querySelector('i');
+
+            let actionsVisible = false;
+
+            showActionsBtn.addEventListener('click', function () {
+                const cardFooters = document.querySelectorAll('.card-footer');
+                const bannerActions = document.querySelectorAll('.banner-actions');
+                const hideableNavItems = document.querySelectorAll('.nav-item.hideable');
+
+                if (actionsVisible) {
+                    // Hide actions and nav items
+                    cardFooters.forEach(footer => {
+                        footer.classList.remove('show');
+                    });
+                    bannerActions.forEach(action => {
+                        action.classList.remove('show');
+                    });
+                    hideableNavItems.forEach(navItem => {
+                        navItem.classList.remove('show');
+                    });
+
+                    showActionsText.textContent = 'Show Actions';
+                    showActionsIcon.className = 'bi bi-eye';
+                    showActionsBtn.classList.remove('active');
+                    actionsVisible = false;
+
+                    console.log('🔒 Actions and nav items hidden');
+                } else {
+                    // Show actions and nav items
+                    cardFooters.forEach(footer => {
+                        footer.classList.add('show');
+                    });
+                    bannerActions.forEach(action => {
+                        action.classList.add('show');
+                    });
+                    hideableNavItems.forEach(navItem => {
+                        navItem.classList.add('show');
+                    });
+
+                    showActionsText.textContent = 'Hide Actions';
+                    showActionsIcon.className = 'bi bi-eye-slash';
+                    showActionsBtn.classList.add('active');
+                    actionsVisible = true;
+
+                    console.log('👁️ Actions and nav items shown');
+                }
+            });
+
+            console.log('✅ Show Actions functionality initialized');
+        });
+    </script>
+</body>
+
+</html>
