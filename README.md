@@ -1,118 +1,140 @@
-# Node.js MongoDB Products API với React Frontend
-
-Project này bao gồm:
-1. **Backend API** (Node.js + Express + MongoDB) - Cung cấp API để quản lý sản phẩm
-2. **Frontend React App** - Hiển thị danh sách sản phẩm từ API
-
-## Cấu trúc Project
+## 🏗️ Architecture Overview
 
 ```
 learn-nodejs-mongodb/
-├── app.js                 # Server chính
-├── routes/web.js          # Routes cho web và API
-├── controllers/           # Controllers
-├── models/               # MongoDB models
-├── views/                # EJS templates
-├── react-app/            # React frontend
-│   ├── src/
-│   │   ├── App.js
-│   │   ├── components/
-│   │   └── ...
-│   └── package.json
-└── README.md
+├── 📁 Backend (Node.js + Express + MongoDB)
+│   ├── app.js                 # Main server file
+│   ├── routes/                # API routes
+│   ├── controllers/           # Business logic
+│   ├── models/                # MongoDB schemas
+│   ├── graphql/               # Apollo Server setup
+│   └── graphql-m2/            # Magento 2 integration
+├── 📁 Frontend (React + Apollo Client)
+│   ├── react-app/             # React application
+│   ├── components/            # React components
+│   └── graphql/               # GraphQL queries/mutations
+└── 📁 Documentation
+    ├── README.md              # This file
 ```
 
-## API Endpoints
+## ✨ Features
 
-### GET /api/products
-Trả về danh sách tất cả sản phẩm dạng JSON
+### 🏠 Local Product Management
+- **CRUD Operations**: Create, read, update, delete products
+- **Image Upload**: Multer for file handling
+- **MongoDB Storage**: Persistent data storage
+- **GraphQL API**: Apollo Server for data operations
+- **Real-time Updates**: Apollo Client cache management
 
-**Response:**
-```json
-{
-  "success": true,
-  "data": [
-    {
-      "_id": "product_id",
-      "title": "Product Name",
-      "price": 99.99,
-      "description": "Product description",
-      "imageUrl": "image_url"
-    }
-  ],
-  "message": "Products retrieved successfully"
-}
+### 🌐 Venia Magento 2 Integration
+- **Product Catalog**: Fetch products from Venia demo store
+- **GraphQL Client**: Dynamic import for ES modules compatibility
+- **Pagination**: Navigate through product pages
+- **Search & Filter**: Find products by name or category
+- **REST API**: Backend proxy for frontend consumption
+
+### 🎨 Modern Frontend
+- **React 18**: Modern React with hooks
+- **Apollo Client**: GraphQL client for local products
+- **Swiper Slider**: Banner carousel with autoplay
+- **Responsive Design**: Mobile-first approach
+- **Tab Navigation**: Switch between local and Venia products
+
+### 🎯 Banner System
+- **Dynamic Banners**: Create and manage promotional content
+- **Swiper Integration**: Modern carousel functionality
+- **Autoplay**: 5-second automatic transitions
+- **Navigation**: Previous/Next buttons with pagination
+- **Responsive**: Adapts to different screen sizes
+
+## 📁 Project Structure
+
+### Backend Structure
+```
+├── app.js                     # Main Express server
+├── routes/
+│   └── web.js                 # API routes (products, banners, venia)
+├── controllers/
+│   ├── productController.js   # Product CRUD operations
+│   └── bannerController.js    # Banner management
+├── models/
+│   ├── product.js             # Product MongoDB schema
+│   └── banner.js              # Banner MongoDB schema
+├── graphql/
+│   ├── server.js              # Apollo Server setup
+│   ├── schema.js              # GraphQL schema
+│   └── resolvers.js           # GraphQL resolvers
+├── graphql-m2/
+│   ├── auth-service.js        # Magento 2 authentication
+│   ├── product-service.js     # Magento 2 product service
+│   └── config.js              # Magento 2 configuration
+└── uploads/                   # Image upload directory
 ```
 
-## Cách chạy
-
-### 1. Backend (Node.js API)
-```bash
-# Cài đặt dependencies
-npm install
-
-# Chạy server
-node app.js
+### Frontend Structure
 ```
-Server sẽ chạy tại `http://localhost:3000`
-
-### 2. Frontend (React App)
-```bash
-# Di chuyển vào thư mục React app
-cd react-app
-
-# Cài đặt dependencies
-npm install
-
-# Chạy React app
-npm start
+react-app/
+├── src/
+│   ├── components/
+│   │   ├── BannerSlider.jsx   # Banner carousel with Swiper
+│   │   ├── Product.jsx        # Individual product card
+│   │   ├── ProductForm.jsx    # Add product form
+│   │   ├── VeniaProducts.jsx  # Venia products display
+│   │   └── LoadingSpinner.jsx # Loading animation
+│   ├── graphql/
+│   │   ├── queries.js         # GraphQL queries
+│   │   └── mutations.js       # GraphQL mutations
+│   ├── utils/
+│   │   └── htmlUtils.js       # HTML utility functions
+│   ├── App.js                 # Main application component
+│   ├── apollo-client.js       # Apollo Client configuration
+│   └── index.js               # Application entry point
+└── public/                    # Static assets
 ```
-React app sẽ chạy tại `http://localhost:3001`
 
-## Tính năng
+## 🛠️ Technologies Used
 
 ### Backend
-- RESTful API với Express
-- MongoDB với Mongoose
-- File upload với Multer
-- CORS support cho frontend
+- **Node.js**: JavaScript runtime
+- **Express.js**: Web framework
+- **MongoDB**: NoSQL database
+- **Mongoose**: MongoDB ODM
+- **Apollo Server**: GraphQL server
+- **Multer**: File upload middleware
+- **GraphQL**: Query language for APIs
 
-### Frontend (React)
-- Fetch data từ API
-- Responsive design
-- Loading states
-- Error handling
-- Modern UI với hover effects
+### Frontend
+- **React 18**: UI library
+- **Apollo Client**: GraphQL client
+- **Swiper**: Touch slider library
+- **CSS3**: Modern styling
+- **Fetch API**: HTTP requests
 
-## Database
+### External Services
+- **Venia Magento 2**: Demo e-commerce store
+- **MongoDB Atlas**: Cloud database (optional)
 
-Sử dụng MongoDB Atlas với connection string:
-```
-mongodb+srv://yennd10:admin123@cluster0.6jtpzwk.mongodb.net/shop
-```
+## 📊 API Endpoints
 
-## Models
+### GraphQL (Local Products)
+- **Endpoint**: `POST /graphql`
+- **Queries**: `GET_PRODUCTS`, `GET_BANNERS`
+- **Mutations**: `ADD_PRODUCT`, `DELETE_PRODUCT`
 
-### Product
-- title: String
-- price: Number
-- description: String
-- imageUrl: String
+### REST API (Venia Products)
+- **Endpoint**: `GET /api/venia/products`
 
-connect MongoDB:
-mongodb+srv://yennd10:admin123@cluster0.6jtpzwk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-MongoClient.connect('mongodb+srv://yennd10:admin123@cluster0.6jtpzwk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
 
-add link: <link rel="stylesheet" href="/css/style.css">
-add script: <script src="/js/theme.js"></script>
+## 🎨 Features Breakdown
 
-1. app.js
-2. routes/web.js add method in controller to routes.
-3. productController render file .ejs in views folder, hanlder methods.
-4. add-product post data by form action /add-product in edit-product.ejs
-5. /edit-product/<%= product._id %>?edit=true send productId and ?edit param, post data 6. by from action /edit-product in edit-product.ejs
-7. app.js => routes/web.js router => productController
-8. https://api.weatherstack.com/current?access_key=c2833c671f0c2e841887df603dbdfdce&query=20.94944,105.84333
+### Product Management
+- **Local Products**: Full CRUD with GraphQL
+- **Venia Products**: Read-only from Magento 2
+
+
+### Banner System
+- **Swiper Integration**: Modern carousel
+- **Autoplay**: 5-second transitions
+- **Navigation**: Custom buttons and pagination
+- **Responsive**: Mobile-friendly design
+- **Dynamic Content**: Title, description, images

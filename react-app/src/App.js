@@ -5,11 +5,13 @@ import Product from './components/Product';
 import LoadingSpinner from './components/LoadingSpinner';
 import BannerSlider from './components/BannerSlider';
 import ProductForm from './components/ProductForm';
+import VeniaProducts from './components/VeniaProducts';
 import { GET_PRODUCTS } from './graphql/queries';
 
 function App() {
     const [error, setError] = useState(null);
     const [showProductForm, setShowProductForm] = useState(false);
+    const [activeTab, setActiveTab] = useState('local'); // 'local' or 'venia'
 
     const { loading, data, error: queryError, refetch } = useQuery(GET_PRODUCTS, {
         onError: (error) => {
@@ -36,7 +38,7 @@ function App() {
         );
     }
 
-    if (error || queryError) {
+    if (error) {
         return (
             <div className="app">
                 <header className="app-header">
@@ -66,33 +68,55 @@ function App() {
             <header className="app-header">
                 <h1>Products Store</h1>
                 <div className="header-actions">
-                    <p>Total Products: {products.length}</p>
-                    <button
-                        onClick={() => setShowProductForm(true)}
-                        className="add-product-button"
-                    >
-                        Add Product
-                    </button>
+                    <div className="tab-buttons">
+                        <button
+                            className={`tab-btn ${activeTab === 'local' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('local')}
+                        >
+                            Local Products ({products.length})
+                        </button>
+                        <button
+                            className={`tab-btn ${activeTab === 'venia' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('venia')}
+                        >
+                            Venia Products
+                        </button>
+                    </div>
+                    {activeTab === 'local' && (
+                        <button
+                            onClick={() => setShowProductForm(true)}
+                            className="add-product-button"
+                        >
+                            Add Product
+                        </button>
+                    )}
                 </div>
             </header>
             <main className="app-main">
                 <BannerSlider />
-                {products.length === 0 ? (
-                    <div className="no-products">
-                        <p>No products available</p>
-                        <button
-                            onClick={() => setShowProductForm(true)}
-                            className="add-first-product-button"
-                        >
-                            Add Your First Product
-                        </button>
-                    </div>
+
+                {activeTab === 'local' ? (
+                    <>
+                        {products.length === 0 ? (
+                            <div className="no-products">
+                                <p>No products available</p>
+                                <button
+                                    onClick={() => setShowProductForm(true)}
+                                    className="add-first-product-button"
+                                >
+                                    Add Your First Product
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="products-grid">
+                                {products.map((product) => (
+                                    <Product key={product._id} product={product} />
+                                ))}
+                            </div>
+                        )}
+                    </>
                 ) : (
-                    <div className="products-grid">
-                        {products.map((product) => (
-                            <Product key={product._id} product={product} />
-                        ))}
-                    </div>
+                    <VeniaProducts />
                 )}
             </main>
 

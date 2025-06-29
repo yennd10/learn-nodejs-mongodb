@@ -1,5 +1,4 @@
 const path = require('path');
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const multer = require('multer');
@@ -13,6 +12,11 @@ const { expressMiddleware } = require('@apollo/server/express4');
 
 const app = express();
 
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+
+const webRoutes = require('./routes/web');
+
 // Add CORS middleware
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
@@ -25,10 +29,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.set('view engine', 'ejs');
-app.set('views', 'views');
 
-const webRoutes = require('./routes/web');
 
 // Configure multer for file uploads
 const fileStorage = multer.diskStorage({
