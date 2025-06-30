@@ -4,6 +4,7 @@ import LoadingSpinner from './LoadingSpinner';
 
 const VeniaProducts = () => {
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -35,8 +36,34 @@ const VeniaProducts = () => {
         }
     };
 
+    const fetchCategories = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch(`http://localhost:8080/api/venia/categories`);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (data.success) {
+                setCategories(data.categories.items || []);
+            } else {
+                throw new Error(data.message || 'Failed to fetch products');
+            }
+        } catch (err) {
+            console.error('Error fetching Venia products:', err);
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
     useEffect(() => {
         fetchProducts();
+        fetchCategories();
     }, []);
 
     const handlePageChange = (newPage) => {
@@ -84,6 +111,8 @@ const VeniaProducts = () => {
 
     return (
         <div className="venia-products-container">
+            {/*Categories:{JSON.stringify(categories)}*/}
+
             <h2>Venia Products</h2>
 
             {products.length === 0 ? (

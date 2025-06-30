@@ -207,12 +207,24 @@ class ProductService {
     }
   }
 
+  // Search products by name
+  async searchProducts(searchTerm, pageSize = 10, currentPage = 1) {
+    try {
+      return await this.getProducts(pageSize, currentPage, searchTerm);
+    } catch (error) {
+      console.error('Failed to search products:', error.message);
+      throw error;
+    }
+  }
+
   // Get a single product by SKU
   async getProductBySku(sku) {
     try {
       await this.initialize();
       const variables = { sku };
+
       const data = await this.client.request(GET_PRODUCT_BY_SKU, variables);
+
       if (data.products && data.products.items.length > 0) {
         return data.products.items[0];
       } else {
@@ -240,25 +252,13 @@ class ProductService {
     }
   }
 
-  // Search products by name
-  async searchProducts(searchTerm, pageSize = 10, currentPage = 1) {
-    try {
-      console.log(`🔍 Searching products for: "${searchTerm}"`);
-      return await this.getProducts(pageSize, currentPage, searchTerm);
-    } catch (error) {
-      console.error('❌ Failed to search products:', error.message);
-      throw error;
-    }
-  }
-
   // Get products by category
   async getProductsByCategory(categoryId, pageSize = 10, currentPage = 1) {
     try {
-      console.log(`📂 Fetching products for category ID: ${categoryId}`);
       const filter = { category_id: { eq: categoryId } };
       return await this.getProducts(pageSize, currentPage, filter);
     } catch (error) {
-      console.error('❌ Failed to get products by category:', error.message);
+      console.error('Failed to get products by category:', error.message);
       throw error;
     }
   }
