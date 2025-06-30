@@ -25,7 +25,7 @@
 
         .swiper {
             width: 100%;
-            height: 400px;
+            height: 500px;
             margin: 50px auto;
             position: relative;
             overflow: hidden;
@@ -508,7 +508,7 @@
                             <div class="col">
                                 <div class="card h-100 shadow-sm">
                                     <img src="<%= product.imageUrl %>" class="card-img-top" alt="<%= product.title %>"
-                                        style="height: 200px; object-fit: cover;">
+                                        style="height: 400px; object-fit: cover;">
                                     <div class="card-body">
                                         <h5 class="card-title">
                                             <%- product.title %>
@@ -586,7 +586,7 @@
     <!-- Initialize Swiper -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            console.log('DOM loaded, initializing Swiper...');
+            // console.log('DOM loaded, initializing Swiper...');
 
             const swiperContainer = document.querySelector('.swiper');
             if (!swiperContainer) {
@@ -595,7 +595,7 @@
             }
 
             const slides = swiperContainer.querySelectorAll('.swiper-slide');
-            console.log('Found', slides.length, 'slides');
+            // console.log('Found', slides.length, 'slides');
 
             const swiper = new Swiper('.swiper', {
                 // Basic parameters
@@ -633,22 +633,22 @@
                 // Callbacks
                 on: {
                     init: function () {
-                        console.log('✅ Swiper initialized successfully');
-                        console.log('Total slides:', this.slides.length);
-                        console.log('Current index:', this.realIndex);
-                        console.log('Navigation buttons:', {
-                            next: this.navigation.nextEl,
-                            prev: this.navigation.prevEl
-                        });
+                        // console.log('Swiper initialized successfully');
+                        // console.log('Total slides:', this.slides.length);
+                        // console.log('Current index:', this.realIndex);
+                        // console.log('Navigation buttons:', {
+                        //     next: this.navigation.nextEl,
+                        //     prev: this.navigation.prevEl
+                        // });
                     },
                     slideChange: function () {
-                        console.log('🔄 Slide changed to index:', this.realIndex);
+                        // console.log('Slide changed to index:', this.realIndex);
                     },
                     slideChangeTransitionEnd: function () {
-                        console.log('✅ Slide transition ended at index:', this.realIndex);
+                        // console.log('Slide transition ended at index:', this.realIndex);
                     },
                     click: function (swiper, event) {
-                        console.log('🖱️ Swiper clicked:', event);
+                        // console.log('Swiper clicked:', event);
                     },
                 },
             });
@@ -659,13 +659,13 @@
 
             if (nextBtn) {
                 nextBtn.addEventListener('click', function () {
-                    console.log('➡️ Next button clicked');
+                    // console.log('Next button clicked');
                 });
             }
 
             if (prevBtn) {
                 prevBtn.addEventListener('click', function () {
-                    console.log('⬅️ Previous button clicked');
+                    // console.log('Previous button clicked');
                 });
             }
 
@@ -698,7 +698,7 @@
                     showActionsBtn.classList.remove('active');
                     actionsVisible = false;
 
-                    console.log('🔒 Actions and nav items hidden');
+                    // console.log('Actions and nav items hidden');
                 } else {
                     // Show actions and nav items
                     cardFooters.forEach(footer => {
@@ -716,11 +716,11 @@
                     showActionsBtn.classList.add('active');
                     actionsVisible = true;
 
-                    console.log('👁️ Actions and nav items shown');
+                    // console.log('Actions and nav items shown');
                 }
             });
 
-            console.log('✅ Show Actions functionality initialized');
+            // console.log('Show Actions functionality initialized');
         });
     </script>
 </body>
